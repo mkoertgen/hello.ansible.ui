@@ -6,10 +6,10 @@ LOGGER = logging.getLogger(__name__)
 
 class Command():
     @staticmethod
-    def run(cmd) -> iter:
+    def run(cmd, cwd: str = None) -> iter:
         LOGGER.info(f"Running command '{cmd}'...")
         proc = subprocess.Popen(
-            cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf8')
+            cmd, cwd=cwd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf8')
         lines = iter(proc.stdout.readline, '')
         return map(Command.to_html, lines)
 

@@ -9,24 +9,30 @@ services:
       ROOT_PASSWORD: ${PASSWORD}
 
   ansible:
-    image: willhallonline/ansible:2.7-alpine-3.9
+    #image: willhallonline/ansible:2.7-alpine-3.9
+    build:
+      context: ./ansible
     environment:
       # cf.: https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible-configuration-settings
       ANSIBLE_HOST_KEY_CHECKING: 'False'
       ANSIBLE_BECOME_METHOD: sudo
       ANSIBLE_BECOME_USER: root
       ANSIBLE_CONFIG: ansible.cfg
-    working_dir: /ansible
+    #working_dir: /ansible
     command: ./deploy.sh site.yml dev ${PASSWORD} --check
     depends_on: ['myhost']
-    ports: [ '5000:5000' ]
     volumes:
       - ansible_roles:/root/.ansible/roles/
-      - ./ansible/:/ansible/
+      #- ./ansible/:/ansible/
 
   ui:
     build:
       context: ./ui
+    ports: [ '5000:5000' ]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:/_work/
+
 
 volumes:
   ansible_roles: {}
