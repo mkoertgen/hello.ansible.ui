@@ -1,0 +1,20 @@
+{
+  "name": "hello.ansible.ui",
+  "version": "1.0.0",
+  "description": "TODO",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ansi_up": "^4.0.4"
+  },
+  "devDependencies": {
+    "bulma": "^0.8.2"
+  }
+}

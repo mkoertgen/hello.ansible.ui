@@ -1,10 +1,10 @@
-version: '3'
+version: "3"
 
 services:
   myhost:
     # panubo/sshd:1.0.2, sickp/alpine-sshd:7.5-r2
     image: hermsi/alpine-sshd:latest
-    ports: ['2222:22']
+    ports: ["2222:22"]
     environment:
       ROOT_PASSWORD: ${PASSWORD}
 
@@ -14,13 +14,13 @@ services:
       context: ./ansible
     environment:
       # cf.: https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible-configuration-settings
-      ANSIBLE_HOST_KEY_CHECKING: 'False'
+      ANSIBLE_HOST_KEY_CHECKING: "False"
       ANSIBLE_BECOME_METHOD: sudo
       ANSIBLE_BECOME_USER: root
       ANSIBLE_CONFIG: ansible.cfg
     #working_dir: /ansible
     command: ./deploy.sh site.yml dev ${PASSWORD} --check
-    depends_on: ['myhost']
+    depends_on: ["myhost"]
     volumes:
       - ansible_roles:/root/.ansible/roles/
       #- ./ansible/:/ansible/
@@ -28,13 +28,11 @@ services:
   ui:
     build:
       context: ./ui
-    ports: [ '5000:5000' ]
+      target: ${TARGET:-final} # test
+    ports: ["5000:5000"]
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - ./:/_work/
-
 
 volumes:
   ansible_roles: {}
-
-

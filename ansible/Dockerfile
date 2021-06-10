@@ -1,4 +1,4 @@
-FROM willhallonline/ansible:2.7-alpine-3.9
+FROM willhallonline/ansible:2.10-alpine-3.13
 
 WORKDIR /ansible
 COPY requirements.yml ./
